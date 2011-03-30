@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="google-site-verification" content="RHq_JduXxb6kjI5ttZXB6DLvZ3X31r_rff-TLHblU68" />
+        <title>Roku Channel Registration</title>
+        <link rel="stylesheet" type="text/css" href="static/view.css" media="all">
+        <script type="text/javascript" src="static/view.js"></script>
+    </head>
+    <body id="main_body" >
+        <img id="top" src="static/top.png" alt="">
+        <div id="form_container">
+            <h1><a>Roku Channel Registration</a></h1>
+            <form id="auth_form" class="appnitro"  method="post" action="/oauth/authorize">
+                <div class="form_description">
+                    <h2>Roku Channel Registration</h2>
+                    <p>Link your Roku DVP to your account</p>
+                </div>
+                {% if complete %}
+                    <h2>Process complete.</h2>
+                {% else %}
+                    {% if access_error %}
+                        <font color="red">Unable to find access code provided.  Check code and try again.</font>
+                    {% endif %}
+                    <ul >
+                        <li id="li_1" >
+                            <label class="description" for="regcode">Access Code</label>
+                            <div>
+                                <input id="regcode" name="regcode" class="element text small" type="text" maxlength="4" value="{{ reg_code }}"/>
+                            </div>
+                        </li>
+                        
+                        {% if not picasa %}
+                        <li id="li_2" >
+                            <label class="description" for="accesstype">Access Type</label>
+                            <span>
+                                <input id="public" name="accesstype" class="element radio" type="radio" value="Public" {{ pub_checked }} />
+                                <label class="choice" for="public">Public - View public albums (best for most users)</label>
+                                <input id="full" name="accesstype" class="element radio" type="radio" value="Full" {{ full_checked }}/>
+                                <label class="choice" for="full">Full - View all albums, including unlisted albums</label>
+                            </span>
+                        </li>
+                        
+                        Note: Access type can be changed in the SmugMug control panel under Authorized Applications
+                        {% endif %}
+                        
+                        <input id="service" name="service" type="hidden" value="{{ service }}"/>
+                        <li class="buttons">
+                             <input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
+                        </li>
+                    </ul>
+                {% endif %}
+            </form>
+            {% if not picasa %}
+            <div id="footer">
+                If you do not have a SmugMug account yet, click <a href="/signup">here</a> or add coupon code 2TqKwSOXw5HeU to save $5 on your first year.  Not only will you save money but you will help support this application.  Thank you.
+            </div>
+            {% endif %}
+        </div>
+        <img id="bottom" src="static/bottom.png" alt="">
+        <img src="http://code.google.com/appengine/images/appengine-silver-120x30.gif" alt="Powered by Google App Engine" />
+    </body>
+</html>

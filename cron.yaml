@@ -1,0 +1,4 @@
+cron:
+- description: daily archive job
+  url: /tasks/archive
+  schedule: every 2 hours
