@@ -90,7 +90,7 @@ class MainHandler(webapp.RequestHandler):
     def get(self):
         error=False
         complete=False
-        picasa=False
+        smugmug=True
         pub_checked="checked"
         full_checked=""
         
@@ -107,14 +107,14 @@ class MainHandler(webapp.RequestHandler):
         
         reg_code = self.request.get("reg_code")
         service = self.request.get("service", default_value="smugmug")
-        if service=="picasa":
-            picasa = True
+        if service!="smugmug":
+            smugmug = False
 
         template_params = {
             'complete': complete,
             'access_error': error,
             'reg_code': reg_code,
-            'picasa' : picasa,
+            'smugmug' : smugmug,
             'service' : service,
             'pub_checked' : pub_checked,
             'full_checked' : full_checked,
@@ -142,8 +142,10 @@ class OAuthAuthorizeHandler(webapp.RequestHandler):
             oauth_token=results[0].oauth_token
             if results[0].service == "smugmug":
                 self.redirect("http://api.smugmug.com/services/oauth/authorize.mg?Permissions=Read&Access="+accesstype+"&oauth_token="+oauth_token)
-            else:
+            elif results[0].service == "picasa":
                 self.redirect("https://www.google.com/accounts/OAuthAuthorizeToken?oauth_token="+oauth_token)
+            elif results[0].service == "flickr":
+                self.redirect("http://www.flickr.com/services/oauth/authorize?oauth_token="+oauth_token)
 
 class OAuthCallbackHandler(webapp.RequestHandler):
     def get(self):
@@ -189,7 +191,7 @@ application = webapp.WSGIApplication([
     (r"/getRegResult", RegResultHandler),
     (r"/signup", LinkHandler),
     (r"/tasks/archive", ArchiveHandler),
-    (r"/(?i)(picasa|picassa|smugmug)/*", ServiceHandler),
+    (r"/(?i)(picasa|picassa|smugmug|flickr)/*", ServiceHandler),
     (r"/", MainHandler),
 ])
 
