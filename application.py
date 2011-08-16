@@ -145,7 +145,7 @@ class OAuthAuthorizeHandler(webapp.RequestHandler):
             elif results[0].service == "picasa":
                 self.redirect("https://www.google.com/accounts/OAuthAuthorizeToken?oauth_token="+oauth_token)
             elif results[0].service == "flickr":
-                self.redirect("http://www.flickr.com/services/oauth/authorize?oauth_token="+oauth_token)
+                self.redirect("http://www.flickr.com/services/oauth/authorize?oauth_token="+oauth_token+"&perms=read")
 
 class OAuthCallbackHandler(webapp.RequestHandler):
     def get(self):
